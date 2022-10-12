@@ -12,7 +12,7 @@ class Messager extends Nullstack {
 
   async emitMessage() {
     // Assuring socket is connected before emitting message
-    if (!this.socket?.connected) return;
+    if (!this.socket.connected) return;
 
     this.socket.emit("chat message", this.message_text);
 
@@ -22,22 +22,26 @@ class Messager extends Nullstack {
 
   terminate() {
     // Disconnecting on component unmount
-    this.socket?.disconnect();
+    this.socket.disconnect();
   }
 
   hydrate() {
     // Socket connection
     const socket = io(":3001");
 
-    // Logger
-    socket.on("logger", console.log);
-
     // On chat update, add incoming message to list of messages!
     socket.on("chat update", (msg) => {
       this.message_list.push(msg);
     });
 
-    this.socket = socket;
+    // On connect
+    socket.on("connected", (connected_msg) => {
+      // Letting user know they're connected by console.logging it
+      console.log(connected_msg);
+
+      // Triggering re-render to enable send button
+      this.socket = socket;
+    });
   }
 
   render() {
@@ -56,7 +60,7 @@ class Messager extends Nullstack {
             placeholder="Enter your message here"
           />
 
-          <button type="submit" disabled={!this.socket?.connected}>
+          <button type="submit" disabled={this.socket?.disconnected}>
             Send
           </button>
         </form>
