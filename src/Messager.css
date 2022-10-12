@@ -8,6 +8,12 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: default;
+
+  filter: brightness(0.7);
+}
+
 .container {
   display: flex;
   flex-flow: column;

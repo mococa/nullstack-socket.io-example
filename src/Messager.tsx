@@ -1,16 +1,28 @@
+// External
 import Nullstack from "nullstack";
-import "./Messager.css";
 import { io, Socket } from "socket.io-client";
 
+// Styles
+import "./Messager.css";
+
 class Messager extends Nullstack {
-  socket: Socket;
+  socket: Socket = null;
   message_list: string[] = [];
-  message_text;
+  message_text: string = "";
 
   async emitMessage() {
+    // Assuring socket is connected before emitting message
+    if (!this.socket?.connected) return;
+
     this.socket.emit("chat message", this.message_text);
 
+    // Clear input text
     this.message_text = "";
+  }
+
+  terminate() {
+    // Disconnecting on component unmount
+    this.socket?.disconnect();
   }
 
   hydrate() {
@@ -20,7 +32,7 @@ class Messager extends Nullstack {
     // Logger
     socket.on("logger", console.log);
 
-    // On chat update, add to list of messages!
+    // On chat update, add incoming message to list of messages!
     socket.on("chat update", (msg) => {
       this.message_list.push(msg);
     });
@@ -44,7 +56,9 @@ class Messager extends Nullstack {
             placeholder="Enter your message here"
           />
 
-          <button type="submit">Send</button>
+          <button type="submit" disabled={!this.socket?.connected}>
+            Send
+          </button>
         </form>
       </div>
     );

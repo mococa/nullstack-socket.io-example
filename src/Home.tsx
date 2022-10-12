@@ -1,6 +1,11 @@
+// External
 import Nullstack, { NullstackClientContext, NullstackNode } from "nullstack";
 import Logo from "nullstack/logo";
+
+// Components
 import Messager from "./Messager";
+
+// Styles
 import "./Home.css";
 
 interface HomeProps {
@@ -31,7 +36,7 @@ class Home extends Nullstack<HomeProps> {
     );
   }
 
-  render({ project, greeting }: NullstackClientContext<HomeProps>) {
+  render({ greeting }: NullstackClientContext<HomeProps>) {
     return (
       <section>
         <article>
@@ -44,11 +49,13 @@ class Home extends Nullstack<HomeProps> {
 
           <Messager />
         </article>
+
         <aside>
           <Link href="https://nullstack.app/waifu">
             <img
               src="/nulla-chan.webp"
               alt="Nulla-Chan: Nullstack's official waifu"
+              style="padding: 8px;"
             />
           </Link>
         </aside>
