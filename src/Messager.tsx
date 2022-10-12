@@ -14,6 +14,9 @@ class Messager extends Nullstack {
     // Assuring socket is connected before emitting message
     if (!this.socket.connected) return;
 
+    // Avoiding empty messages to be sent
+    if (!this.message_text) return;
+
     this.socket.emit("chat message", this.message_text);
 
     // Clear input text
