@@ -1,0 +1,23 @@
+button {
+  background-color: #be185d;
+  color: #fff;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
+}
+
+input {
+  width: 100%;
+
+  padding: 8px;
+
+  font-size: 1rem;
+}
